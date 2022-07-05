@@ -41,9 +41,9 @@ public class ScheduledJobs {
         logger.info("fetch google news");
         Optional<List<GoogleNewsApiResp.Article>> articleOptional = googleNewsFetcher.getArticlesFromTopHeadlines();
         logger.info("Fetched news count:{}", articleOptional.map(List::size).orElse(0));
-//        logger.info("Publish news to message:");
-//        articleOptional.ifPresent(articles -> articles.stream().forEach(googleNewsPublisher::publish));
-//        logger.info("Fetched news count:{}", articleOptional.map(List::size).orElse(0));
+        logger.info("Publish news to message:");
+        articleOptional.ifPresent(articles -> articles.stream().forEach(googleNewsPublisher::publish));
+        logger.info("Fetched news count:{}", articleOptional.map(List::size).orElse(0));
     }
 
 }

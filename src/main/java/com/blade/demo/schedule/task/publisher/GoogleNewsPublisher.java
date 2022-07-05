@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -22,16 +22,16 @@ public class GoogleNewsPublisher {
 
     private final static Logger logger = LoggerFactory.getLogger(GoogleNewsPublisher.class);
 
-//    private final KafkaTemplate<String,String> kafkaTemplate;
+    private final KafkaTemplate<String,String> kafkaTemplate;
     private final ObjectMapper objectMapper;
     private final NewsHelper newsHelper;
 
     public GoogleNewsPublisher(
-//            KafkaTemplate<String, String> kafkaTemplate,
+            KafkaTemplate<String, String> kafkaTemplate,
             ObjectMapper objectMapper,
             NewsHelper newsHelper
     ) {
-//        this.kafkaTemplate = kafkaTemplate;
+        this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
         this.newsHelper = newsHelper;
     }
@@ -52,7 +52,7 @@ public class GoogleNewsPublisher {
                 logger.error("Fail to transfer null data");
             }
         }
-//        jsonOpt.ifPresent(json -> kafkaTemplate.send(KafkaMessageInfo.COMMON_TOPIC_NEWS, json));
+        jsonOpt.ifPresent(json -> kafkaTemplate.send(KafkaMessageInfo.COMMON_TOPIC_NEWS, json));
     }
 
 }
