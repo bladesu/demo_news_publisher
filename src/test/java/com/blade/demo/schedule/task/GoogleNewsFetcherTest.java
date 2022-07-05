@@ -2,6 +2,7 @@ package com.blade.demo.schedule.task;
 
 import com.blade.demo.DemoApplication;
 import com.blade.demo.model.third.parties.google.GoogleNewsApiResp;
+import com.blade.demo.schedule.task.loader.GoogleNewsFetcher;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

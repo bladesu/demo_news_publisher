@@ -1,4 +1,4 @@
-package com.blade.demo.schedule.task;
+package com.blade.demo.schedule.task.loader;
 
 import com.blade.demo.model.third.parties.google.GoogleNewsApiResp;
 import org.springframework.beans.factory.annotation.Value;

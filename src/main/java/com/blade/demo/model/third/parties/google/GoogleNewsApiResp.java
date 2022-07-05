@@ -1,5 +1,6 @@
 package com.blade.demo.model.third.parties.google;
 
+import com.blade.demo.model.message.News;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -15,14 +16,20 @@ public class GoogleNewsApiResp {
 
     @Data
     public static class Article {
-        Map<String, String> source;
-        String author;
-        String title;
-        String description;
-        String url;
-        String urlToImage;
-        Timestamp publishedAt;
+        private ArticleSource source;
+        private String author;
+        private String title;
+        private String description;
+        private String url;
+        private String urlToImage;
+        private Timestamp publishedAt;
 
+    }
+
+    @Data
+    public static class ArticleSource {
+        private String id;
+        private String name;
     }
 
 }
