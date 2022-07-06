@@ -35,7 +35,8 @@ public class GoogleNewsConsumer {
 
     @KafkaListener(
             topics = KafkaMessageInfo.COMMON_TOPIC_NEWS,
-            groupId = KafkaMessageInfo.COMMON_GROUP_ID
+            // random group_id, that is each consumer should read message independently.
+            groupId = "#{T(java.util.UUID).randomUUID().toString()}"
     )
     public void listen(String message) {
         logger.info("Received Message in group foo: " + message);

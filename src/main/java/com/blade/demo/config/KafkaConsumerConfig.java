@@ -28,9 +28,6 @@ public class KafkaConsumerConfig {
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 bootstrapAddress);
         props.put(
-                ConsumerConfig.GROUP_ID_CONFIG,
-                KafkaMessageInfo.COMMON_GROUP_ID);
-        props.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
                 StringDeserializer.class);
         props.put(
