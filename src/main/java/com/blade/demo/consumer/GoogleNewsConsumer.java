@@ -1,18 +1,17 @@
-package com.blade.demo.schedule.task.publisher;
+package com.blade.demo.consumer;
 
+import com.blade.demo.component.WebsocketSessionManager;
 import com.blade.demo.misc.KafkaMessageInfo;
-import com.blade.demo.model.third.parties.google.GoogleNewsApiResp;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * With binding topic and data model, this component can publish data to kafka service.
@@ -22,14 +21,12 @@ public class GoogleNewsConsumer {
 
     private final static Logger logger = LoggerFactory.getLogger(GoogleNewsConsumer.class);
 
-    private final KafkaTemplate<String,String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
+
     public GoogleNewsConsumer(
-            KafkaTemplate<String, String> kafkaTemplate,
             ObjectMapper objectMapper
     ) {
-        this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
     }
 
@@ -39,6 +36,18 @@ public class GoogleNewsConsumer {
             groupId = "#{T(java.util.UUID).randomUUID().toString()}"
     )
     public void listen(String message) {
-        logger.info("Received Message in group foo: " + message);
+        logger.debug("Received Message in group foo: " + message);
+        Collection<WebSocketSession> webSocketSessions = WebsocketSessionManager.getCurrentSessions();
+        logger.debug("Broadcasting to client with count={}", webSocketSessions.stream().count());
+        webSocketSessions.forEach(
+                webSocketSession -> {
+                    try {
+                        webSocketSession.sendMessage(new TextMessage(message));
+                    } catch (IOException e) {
+                        logger.error("Fail to send message to websocket client.");
+                    }
+                }
+        );
+
     }
 }
